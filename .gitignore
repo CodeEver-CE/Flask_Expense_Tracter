@@ -1,0 +1,30 @@
+# Python bytecode (compiled cache)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Python Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+
+# Flask local/instance configurations
+instance/
+
+# Environment Variables / Sensitive Keys
+.env
+.flaskenv
+
+# Databases (Crucial for an Expense Tracker!)
+*.db
+*.sqlite3
+
+# Operating System specific files
+.DS_Store
+Thumbs.db
+
+# IDE and Code Editors
+.vscode/
+.idea/
