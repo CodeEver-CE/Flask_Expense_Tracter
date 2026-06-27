@@ -1,25 +1,36 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import inspect
 from datetime import date
 
-app=Flask(__name__)
+app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///expenses.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///expenses.db"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
 db = SQLAlchemy(app)
+
+
+class Expenses(db.Model):
+    __tablename__ = "expenses"
+
+    id = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.String(200), nullable=False)
+    amount = db.Column(db.Float, nullable=False)
+    category = db.Column(db.String(50), nullable=False)
+    date = db.Column(db.Date, nullable=False, default=date.today)
+
 
 with app.app_context():
     db.create_all()
+    inspector = inspect(db.engine)
+    print("Tables:", inspector.get_table_names())
 
-class Expense(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    amount = db.Column(db.Float, nullable=False)
-    description = db.Column(db.String(200), nullable=False)
-    date = db.Column(db.Date, nullable=False)
 
 @app.route("/")
 def index():
     return render_template("index.html")
 
-if __name__=="__main__":
-    app.run(debug=True)   
+
+if __name__ == "__main__":
+    app.run(debug=True)
